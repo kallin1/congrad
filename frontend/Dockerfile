@@ -1,6 +1,13 @@
-# Nginx로 정적 파일 서빙
+# Build Stage
+FROM node:18 AS build
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
+RUN npm run build
+
+# Production Stage
 FROM nginx:alpine
-WORKDIR /usr/share/nginx/html
-COPY build/ .   # 로컬에서 생성된 build 폴더를 그대로 복사
+COPY --from=build /app/build /usr/share/nginx/html
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
