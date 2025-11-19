@@ -19,8 +19,7 @@ services:
     ]
 
   backend:
-    build:
-      context: ./backend
+    image: congrad-backend:latest
     container_name: congrad-backend
     depends_on:
       - db
@@ -30,15 +29,20 @@ services:
       SPRING_DATASOURCE_PASSWORD: 1234
     ports:
       - "8080:8080"
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
 
   frontend:
-    build:
-      context: ./frontend
+    image: congrad-frontend:latest
     container_name: congrad-frontend
     depends_on:
       - backend
     ports:
-      - "3000:80"    # React는 Nginx로 포트 80에서 서비스됨
+      - "3000:80"
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
 
 volumes:
   db-data:

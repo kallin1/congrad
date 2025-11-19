@@ -1,13 +1,6 @@
-# React build
-FROM node:18 AS builder
-WORKDIR /app
-COPY package*.json ./
-RUN npm install
-COPY . .
-RUN npm run build
-
 # Nginx로 정적 파일 서빙
 FROM nginx:alpine
-COPY --from=builder /app/build /usr/share/nginx/html
+WORKDIR /usr/share/nginx/html
+COPY build/ .   # 로컬에서 생성된 build 폴더를 그대로 복사
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
