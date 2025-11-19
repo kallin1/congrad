@@ -1,11 +1,18 @@
-# Gradle로 JAR 자동 빌드
-FROM gradle:8.3-jdk17 AS builder
+# 빌드용 이미지 (Corretto 17)
+FROM amazoncorretto:17 AS builder
 WORKDIR /app
-COPY . .
-RUN gradle clean bootJar --no-daemon
 
-# 실행
-FROM openjdk:17-jdk
+# Gradle Wrapper와 프로젝트 복사
+COPY gradlew .
+COPY gradle gradle
+COPY build.gradle settings.gradle ./
+COPY src ./src
+
+RUN chmod +x gradlew
+RUN ./gradlew clean bootJar --no-daemon
+
+# 실행용 이미지
+FROM amazoncorretto:17
 WORKDIR /app
 COPY --from=builder /app/build/libs/*.jar app.jar
 EXPOSE 8080
