@@ -10,7 +10,7 @@ description = 'Posting page for graduation project team building'
 
 java {
 	toolchain {
-		languageVersion = JavaLanguageVersion.of(21)
+		languageVersion = JavaLanguageVersion.of(17)
 	}
 }
 
