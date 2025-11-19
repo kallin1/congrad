@@ -4,7 +4,7 @@ FROM amazoncorretto:17
 WORKDIR /app
 
 # 실제 JAR 파일 복사 (로컬에서 빌드된 JAR 이름 지정)
-COPY build/libs/congrad-0.0.1-SNAPSHOT.jar app.jar
+COPY build/libs/Congrad-0.0.1-SNAPSHOT.jar app.jar
 
 # 컨테이너에서 열 포트
 EXPOSE 8080
